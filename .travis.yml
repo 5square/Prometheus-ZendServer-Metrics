@@ -2,13 +2,13 @@ language: php
 php:
 - 7.1
 script:
+- mkdir -p build
+before_deploy:
+- sed -i "s/<release>.*<\/release>/<release>$TRAVIS_TAG<\/release>/" deployment.xml
 - curl -L -o ./zsclient.phar https://github.com/zend-patterns/ZendServerSDK/raw/master/bin/zs-client.phar
+- php ./zs-client.phar packZpk --folder="." --destination="build" --name=Prometheus-ZendServer-Metrics-$TRAVIS_TAG.zpk
 deploy:
   provider: releases
-  script:
-  - sed -i "s/<release>.*<\/release>/<release>$TRAVIS_TAG<\/release>/" deployment.xml
-  - mkdir -p build
-  - php ./zs-client.phar packZpk --folder="." --destination="build" --name=Prometheus-ZendServer-Metrics-$TRAVIS_TAG.zpk
   api_key:
     secure: K27x8m9VEkHSA/Y4nOyGUkkhxZOltH3LW9Y9G9Ew3tsGeJ8wtoxZiyQAfyDR9GpaMRYPspqyYfCQxNwqcUfVycOUUpm5HxCDtgu3qk8y+lIAs/k5kBW3g0+5nyyO0CUpxsIkFaWfaDqk1+2rdi7TF0SNCxk6RShfUbT1+7PkKvS4vTtJzJAk+ErNPj0XNyD7JwJljaIclx/QWir2j5iYRLOhNcK7OGzlF/KpU8ppZl479MOppA6koyT1MChG5BXmPJxuVMikM2aw0UWXFaEU1mlkmdK/yAqg90zyONf4+7HKlFnnt3qJxCRR5UW7Ubq0KlScGnHsUIwaF4xv6xCCMQ4Gd2s4EYH7Uhjc7foMpUrdi8uJyCTv1EtteckoWHdGr6nMXZbWxxefH77gMeB4ygmN8OUaRowuTYvAKjiu7h+/dLQBylUKMjRe+WTMgV2jyAnW6NPTPu/3iwqJZiiHGtmUSE0S9pSPVZO+jR5z94qm5KvZY35Sf5vz3UTkiiw4rxoYyOpJ/BFk6Ez7QMHqiT0W35KfqZnn43+ZPURtUCLnO5fHeyB579zOVI/QGaSyvKQSw/tSnWRmCnzgZ3ucURNplv/y1t53fsoY+1kq4ECaHVXtFOoUksaFW9/6MSSwEQNTjNh8bYBHqF/UGH2j9ZiCDMVy7pB+3y4jQrL4PmQ=
   file: build/Prometheus-ZendServer-Metrics*.zpk
