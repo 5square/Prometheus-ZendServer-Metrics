@@ -7,6 +7,7 @@ before_deploy:
 - sed -i "s/<release>.*<\/release>/<release>$TRAVIS_TAG<\/release>/" deployment.xml
 - curl -L -o ./zs-client.phar https://github.com/zend-patterns/ZendServerSDK/raw/master/bin/zs-client.phar
 - php ./zs-client.phar packZpk --folder="." --destination="build" --name=Prometheus-ZendServer-Metrics-$TRAVIS_TAG.zpk
+- ls -la build
 deploy:
   provider: releases
   api_key:
