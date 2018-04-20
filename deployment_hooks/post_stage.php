@@ -1,5 +1,5 @@
 <?php
-define('QUEUE', 'PrometheusStats');
+define('QUEUE', 'PrometheusMetrics');
 
 $jobFileName = sys_get_temp_dir() . '/' . uniqid() . '.php';
 $res = copy(__DIR__ . '/create_job.php', $jobFileName);

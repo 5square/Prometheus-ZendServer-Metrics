@@ -1,5 +1,5 @@
 <?php
-define('QUEUE', 'PrometheusStats');
+define('QUEUE', 'PrometheusMetrics');
 
 $jobName = "Create Metrics for Prometheus";
 $schedule     = '*/1 * * * *';
@@ -7,7 +7,7 @@ $schedule     = '*/1 * * * *';
 $q = new ZendJobQueue();
 
 $id = $q->createPhpCliJob(
-    zend_deployment_library_path('PrometheusStats') . '/index.php',
+    zend_deployment_library_path('PrometheusMetrics') . '/index.php',
     [
         'pushgateway:9091'
     ],
